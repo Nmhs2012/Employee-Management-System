@@ -1,32 +1,53 @@
 package transfer;
 
 public class Transfer {
-	private int transferID;
-	private String depFrom;
-	private String depTo;
+
+	private int tranID;
+	private String cBranch;
+	private String cDepartment;
+	private String tBranch;
+	private String tDepartment;
 	private String reason;
-	
-	public Transfer(int transferID, String depFrom, String depTo, String reason) {
-		this.transferID = transferID;
-		this.depFrom = depFrom;
-		this.depTo = depTo;
+	private String approveBy;
+
+	public Transfer(int tranID, String cBranch, String cDepartment, String tBranch, String tDepartment, String reason,
+			String approveBy) {
+		this.tranID = tranID;
+		this.cBranch = cBranch;
+		this.cDepartment = cDepartment;
+		this.tBranch = tBranch;
+		this.tDepartment = tDepartment;
 		this.reason = reason;
+		this.approveBy = approveBy;
 	}
 
-	public int getTransferID() {
-		return transferID;
+	public int getTranID() {
+		return tranID;
 	}
 
-	public String getDepFrom() {
-		return depFrom;
+	public String getcBranch() {
+		return cBranch;
 	}
 
-	public String getDepTo() {
-		return depTo;
+	public String getcDepartment() {
+		return cDepartment;
+	}
+
+	public String gettBranch() {
+		return tBranch;
+	}
+
+	public String gettDepartment() {
+		return tDepartment;
 	}
 
 	public String getReason() {
 		return reason;
 	}
+
+	public String getApproveBy() {
+		return approveBy;
+	}
 	
+
 }

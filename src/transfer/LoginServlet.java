@@ -16,6 +16,7 @@ public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 		PrintWriter out = response.getWriter();
 		response.setContentType("text/html");
 		
@@ -33,6 +34,9 @@ public class LoginServlet extends HttpServlet {
 				List<Department> depDetails = TransferDBUtil.getDepartment(username);
 				request.setAttribute("depDetails", depDetails);
 				
+				List<Branch> branchDetails = TransferDBUtil.getBranch(username);
+				request.setAttribute("branchDetails", branchDetails);
+				
 				RequestDispatcher dis1 = request.getRequestDispatcher("Transfer.jsp");		
 				dis1.forward(request, response);
 			}
@@ -46,6 +50,6 @@ public class LoginServlet extends HttpServlet {
 		
 	}
 
-
-
 }
+
+

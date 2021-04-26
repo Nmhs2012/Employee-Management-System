@@ -18,7 +18,7 @@ input {
 }
 
 button {
- 	background-color: DarkCyan;
+ 	background-color: MidNightBlue;
   	color: white;
 	padding: 14px 20px;
  	margin: 8px 0;
@@ -37,7 +37,7 @@ button:hover {
 }
 
 .modal {
-	background-color: grey; 
+	background-color: SteelBlue; 
  	padding-top: 60px;
   	padding-bottom: 60px;
 }

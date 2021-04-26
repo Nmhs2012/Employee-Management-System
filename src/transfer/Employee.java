@@ -1,24 +1,23 @@
 package transfer;
 
 public class Employee {
-	
-	private int id;
+
+	private int empID;
 	private String name;
 	private String address;
-	private String username;
-	private String password;
-	
-	public Employee(int id, String name, String address, String username, String password) {
-		super();
-		this.id = id;
+	private static String username;
+	private int password;
+
+	public Employee(int empID, String name, String address, String username, int password) {
+		this.empID = empID;
 		this.name = name;
 		this.address = address;
-		this.username = username;
+		Employee.username = username;
 		this.password = password;
 	}
 
-	public int getId() {
-		return id;
+	public int getEmpID() {
+		return empID;
 	}
 
 	public String getName() {
@@ -29,12 +28,12 @@ public class Employee {
 		return address;
 	}
 
-	public String getUsername() {
+	public static String getUsername() {
 		return username;
 	}
 
-	public String getPassword() {
+	public int getPassword() {
 		return password;
 	}
-	
+
 }

@@ -1,9 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-    <%@page import="transfer.DBConnect" %>
-    <%@page import="java.sql.*" %>
-    
 <!DOCTYPE html>
 <html>
 <head>
@@ -222,17 +219,17 @@ th {
 	</div>
 
 		<button onclick="#" >Home</button>
-		<button onclick="#" >Home</button>
-		<button onclick="#" >Home</button>
-		<button onclick="#" >Home</button>
+		<button onclick="#" >Admin</button>
+		<button onclick="#" >Contact</button>
+		<button onclick="#" >About Us</button>
 	
 	<div class="card">
 	
     	<div  class="navigation">
       		<ul>
-  				<li><a class="active" href="Transfer.jsp">Request Transfer</a></li>
+  				<li><a href="Transfer.jsp">Request Transfer</a></li>
   				<li style="margin-top:10px;"><a href="MutualTransfer.jsp">Request Mutual Transfer</a></li>
-  				<li style="margin-top:10px;"><a href="PendingTransfer.jsp">Requested Transfer History</a></li>
+  				<li style="margin-top:10px;"><a href="PendingTransfer.jsp" class="active" href="PendingTransfer.jsp">Requested Transfer History</a></li>
  				
 		    </ul>
 		</div>
@@ -241,128 +238,67 @@ th {
 	
 		<div class="container">
 		
-		<h1 style="text-align: center;font-size:30px">Transfer Requisition</h1>
-	
-		<c:forEach var="Employee" items="${empDetails}">
-	
-		<c:set var ="empID" value ="${Employee.empID}"/>
-		<c:set var ="name" value ="${Employee.name}"/>
-		<c:set var ="address" value ="${Employee.address}"/>
-		
-			<label>1. Name:</label>
-				   ${Employee.name}<br/>
-		
-		    <label>2. Address:</label>
-			       ${Employee.address}<br/>
-		
-			<label>3. Staff No:</label>
-			       ${Employee.empID}<br/>
-		
-		
-		</c:forEach>
-	
-		<c:forEach var="Department" items="${depDetails}">
-	
-	
-		<c:set var ="dname"  value ="${Department.dname}"/>
+		<h1 style="text-align: center;font-size:30px">Delete Transfer Requisition Details</h1>
 	
 		
+	<%
+		String tranID = request.getParameter("tranID");
+		String cBranch = request.getParameter("cBranch");
+		String cDepartment = request.getParameter("cDepartment");
+		String tBranch = request.getParameter("tBranch");
+		String tDepartment = request.getParameter("tDepartment");
+		String reason = request.getParameter("reason");
+		String approveBy = request.getParameter("approveBy");
+	%>	
 		
-			<label>4. Department:</label>
-			       ${Department.dname}<br/>
-	
-		</c:forEach>
-	
-		<c:forEach var="Branch" items="${branchDetails}">
-	
-	
-		<c:set var ="bname"  value ="${Branch.bname}"/>
-	
-		
-	
-			<label>5. Branch:</label>
-			       ${Branch.bname}<br/>
-		
-		
-		</c:forEach>
-
-			<label>5. Employee Records:</label><br/>
-		
-			<table>
-				<tr>
-					<th>Branch</th>
-					<th>Department</th>
-					<th>Period From</th>
-					<th>Period To</th>
-					<th>Job Title</th>
-				</tr>
-			</table>
 					
-	<br/>
-	6. Work Place now Requested:
-	<form action="TransferInsertServlet" method="post">
 	
-			<label>Branch:</label>
+	<form action="DeleteTransferServlet" method="post">
+			
+			<label>1.  Transfer ID:</label>
+			<input type="text" name="tranID" value="<%= tranID %>" readonly>
+			
+			<label>2.  Current Branch:</label>
+			<input type="text" name="cBranch" value="<%= cBranch %>" readonly>
+			
+			<label>3.  Current Department:</label>
+			<input type="text" name="cDepartment" value="<%= cDepartment %>" readonly>
+	
+			<label>4.  Transfer Branch:</label>
 			<select id="type" name="tBranch" required>
-				<option value="">Select One..</option>	
-			<%
-			
-			Connection con = null;
-			Statement stat = null;
-			ResultSet rs = null;
-			
-			try {
-				
-				con = DBConnect.getConnection();
-				stat = con.createStatement();
-						
-				String sql = "select * from Branch";
-				
-				rs= stat.executeQuery(sql);
-				
-				while(rs.next()){
-					%>
-					<option value="<%=rs.getInt("branchCode")%>"><%=rs.getString("bname")%></option>
-					<%
-				}
-				
-				
-			}catch(Exception e) {
-				e.printStackTrace();
-			}
-			%>
-			
+          		<option value="<%= tBranch %>"><%= tBranch %></option>
+          		<option value="Colombo">Colombo</option>
+          		<option value="Gampaha">Gampaha</option>
+          		<option value="Galle">Galle</option>
         	</select>
 
 			
-			<label>Department:</label>
-			<select id="type" name="tDepartment" required>
-				<option value="">Select One..</option>
+			<label>5.  Transfer Department:</label>
+			<select id="type" name="tDepartment" readonly>
+				<option value="<%= tDepartment%>"><%= tDepartment%></option>
           		<option value="HR">HR</option>
           		<option value="Marketing">Marketing</option>
-          		<option value="Accounting and Finance">Accounting and Finance</option>
+          		<option value="Accounting & Finance">Accounting and Finance</option>
+          		<option value="Production">Production</option>
           		<option value="Supplies">Supplies</option>
-          		<option value="Production">Production</option>						
         	</select>	
 			
 			
-			<label>7. Reason for Transfer:</label><br/>
-			<p>(100 words maximum)</p>
-			 <textarea name="reason" rows="6" cols="40" maxlength="100" placeholder="Comments..." required> </textarea><br/>
+			<label>6.  Reason for Transfer:</label><br/>
+			 <input type="text" name="reason" value="<%= reason%>"  maxlength="100" placeholder="Comments..." readonly> <br/>
+				<p>(100 words maximum)</p>
 		
-			<label>8. Department Head:<br> (For Approval)</label>
-			 <select id="type" name="approveBy" required>
-			 	<option value="">Select One..</option>
-          		<option value="A.P.Kaurnanayake">A.P.Kaurnanayake</option>
-          		<option value="G.L.Gamage">G.L.Gamage</option>
-          		<option value="A.D.Rajapaksha">A.D.Rajapaksha</option>
-          		<option value="E.K. Perera">E.K. Perera</option>
-          		<option value="A.D.P.De Silva">A.D.P.De Silva</option>
+			<label>7.  Department Head:<br> (For Approval)</label>
+			 <select id="type" name="approveBy" readonly>
+			 	<option value="<%= approveBy%>"><%= approveBy%></option>
+          		<option value="Colombo">A.P.Kaurnanayake</option>
+          		<option value="Gampaha">G.L.Gamage</option>
+          		<option value="Galle">A.D.Rajapaksha</option>
+          		<option value="Galle">E.K. Perera</option>
+          		<option value="Galle">A.D.P.De Silva</option>
         	</select>
-			  
-		
 	
-	<input type="submit" value="Submit">
+	<input type="submit" value="Delete">
 	</form>
 	</div>
 	</div>

@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 
 public class DBConnect {
 
-	private static String url = "jdbc:mysql://localhost:3306/uplift";
+	private static String url = "jdbc:mysql://localhost:3306/company";
 	private static String username ="root";
 	private static String password = "Nmhs1055330+";
 	private static Connection con;
