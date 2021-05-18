@@ -18,15 +18,19 @@ public class ReportViewServlet extends HttpServlet {
 		List<Transfer> RtransferDetails = TransferDBUtil.getTransferDetails();
 		request.setAttribute("RtransferDetails", RtransferDetails);
 		
-		Transfer tr = RtransferDetails.get(0);
-		String eid = tr.getEmpID();
+			if(RtransferDetails.size() != 0) {
+				Transfer tr = RtransferDetails.get(0);
+				String eid = tr.getEmpID();
 		
-		List<Employee> emploDetails = TransferDBUtil.getEmployeeDetails(eid);
-		request.setAttribute("emploDetails", emploDetails);
+				List<Employee> emploDetails = TransferDBUtil.getEmployeeDetails(eid);
+				request.setAttribute("emploDetails", emploDetails);
+			}
+		
+			RequestDispatcher dis2 = request.getRequestDispatcher("PrintReport.jsp");
+			dis2.forward(request, response);
 		
 		
-		RequestDispatcher dis2 = request.getRequestDispatcher("PrintReport.jsp");
-		dis2.forward(request, response);
+		
 	}
 
 }

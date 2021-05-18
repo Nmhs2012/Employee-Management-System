@@ -26,15 +26,17 @@ public class ViewCheckServlet extends HttpServlet {
 		List<Transfer> RtransferDetails = TransferDBUtil.getCheckedTransferDetails();
 		request.setAttribute("RtransferDetails", RtransferDetails);
 		
-		Transfer tr = RtransferDetails.get(0);
-		String eid = tr.getEmpID();
+		if(RtransferDetails.size() != 0) {
+			Transfer tr = RtransferDetails.get(0);
+			String eid = tr.getEmpID();
 		
-		List<Employee> emploDetails = TransferDBUtil.getEmployeeDetails(eid);
-		request.setAttribute("emploDetails", emploDetails);
+			List<Employee> emploDetails = TransferDBUtil.getEmployeeDetails(eid);
+			request.setAttribute("emploDetails", emploDetails);
+		}
 		
+			RequestDispatcher dis2 = request.getRequestDispatcher("CheckTransfer.jsp");
+			dis2.forward(request, response);
 		
-		RequestDispatcher dis2 = request.getRequestDispatcher("CheckTransfer.jsp");
-		dis2.forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

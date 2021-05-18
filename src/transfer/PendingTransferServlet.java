@@ -27,7 +27,8 @@ public class PendingTransferServlet extends HttpServlet {
 		String username = Employee.getUsername();
 				
 		List<Employee> empDetails = TransferDBUtil.getEmployee(username);
-				
+		
+		
 		Employee emp = empDetails.get(0);
 		String empID = emp.getEmpID();
 				

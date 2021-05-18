@@ -28,14 +28,19 @@ public class RequestRejectServlet extends HttpServlet {
 			List<Transfer> RtransferDetails = TransferDBUtil.getTransferDetails();
 			request.setAttribute("RtransferDetails", RtransferDetails);
 			
-			Transfer tr = RtransferDetails.get(0);
-			String eid = tr.getEmpID();
+			if(RtransferDetails.size() != 0){
 			
-			List<Employee> emploDetails = TransferDBUtil.getEmployeeDetails(eid);
-			request.setAttribute("emploDetails", emploDetails);
+				Transfer tr = RtransferDetails.get(0);
+				String eid = tr.getEmpID();
 			
+				List<Employee> emploDetails = TransferDBUtil.getEmployeeDetails(eid);
+				request.setAttribute("emploDetails", emploDetails);
+			}
+			
+						
 			RequestDispatcher dis = request.getRequestDispatcher("RequestedTransfer.jsp");
 			dis.forward(request, response);
+			
 		}
 		else {
 			//List<Attendance> attDetails = AttendanceDBUtil.getAttendance(attID);

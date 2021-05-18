@@ -23,15 +23,18 @@ public class ViewPendingServlet extends HttpServlet {
 		List<Transfer> RtransferDetails = TransferDBUtil.getTransferDetails();
 		request.setAttribute("RtransferDetails", RtransferDetails);
 		
-		Transfer tr = RtransferDetails.get(0);
-		String eid = tr.getEmpID();
+		if(RtransferDetails.size() != 0) {
 		
-		List<Employee> emploDetails = TransferDBUtil.getEmployeeDetails(eid);
-		request.setAttribute("emploDetails", emploDetails);
+			Transfer tr = RtransferDetails.get(0);
+			String eid = tr.getEmpID();
 		
+			List<Employee> emploDetails = TransferDBUtil.getEmployeeDetails(eid);
+			request.setAttribute("emploDetails", emploDetails);
+		}
 		
-		RequestDispatcher dis2 = request.getRequestDispatcher("RequestedTransfer.jsp");
-		dis2.forward(request, response);
+			RequestDispatcher dis2 = request.getRequestDispatcher("RequestedTransfer.jsp");
+			dis2.forward(request, response);
+		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -39,15 +42,22 @@ public class ViewPendingServlet extends HttpServlet {
 		List<Transfer> RtransferDetails = TransferDBUtil.getTransferDetails();
 		request.setAttribute("RtransferDetails", RtransferDetails);
 		
-		Transfer tr = RtransferDetails.get(0);
-		String eid = tr.getEmpID();
+		if(RtransferDetails.size() != 0) {
+			
+			Transfer tr = RtransferDetails.get(0);
+			String eid = tr.getEmpID();
 		
-		List<Employee> emploDetails = TransferDBUtil.getEmployeeDetails(eid);
-		request.setAttribute("emploDetails", emploDetails);
+			List<Employee> emploDetails = TransferDBUtil.getEmployeeDetails(eid);
+			request.setAttribute("emploDetails", emploDetails);
 		
+			RequestDispatcher dis2 = request.getRequestDispatcher("RequestedTransfer.jsp");
+			dis2.forward(request, response);
+		}
 		
-		RequestDispatcher dis2 = request.getRequestDispatcher("RequestedTransfer.jsp");
-		dis2.forward(request, response);
+		else {
+			RequestDispatcher dis2 = request.getRequestDispatcher("RequestedTransfer.jsp");
+			dis2.forward(request, response);
+		}
 	}
 
 }
