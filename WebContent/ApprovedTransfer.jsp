@@ -228,8 +228,7 @@ th {
 				<th>Approve By</th>
 				<th>Status</th>
 				<th>Date</th>
-				<th>Edit</th>
-				<th>Delete</th>
+				
 								
 				
 			</tr>
@@ -275,8 +274,7 @@ th {
 				<td>${Transfer.approveBy}</td>
 				<td>${Transfer.status}</td>
 				<td><%=new SimpleDateFormat("dd/MM/yy").format(new Date()) %></td>
-				<td><a href="${transferUpdate}"><button class="icon"><i style="font-size:24px" class="fa">&#xf044;</i></button></a></td>
-				<td><a href="${transferDelete}"><button class="icon"><i style="font-size:24px" class="fa">&#xf014;</i></button></a></td>
+				
 			</tr>
 		
 						   

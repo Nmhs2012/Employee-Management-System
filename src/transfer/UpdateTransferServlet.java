@@ -1,6 +1,5 @@
 package transfer;
 
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -35,7 +34,7 @@ public class UpdateTransferServlet extends HttpServlet {
 		List<Employee> empDetails = TransferDBUtil.getEmployee(username);
 				
 		Employee emp = empDetails.get(0);
-		int empID = emp.getEmpID();
+		String empID = emp.getEmpID();
 		
 		boolean isTrue;
 		

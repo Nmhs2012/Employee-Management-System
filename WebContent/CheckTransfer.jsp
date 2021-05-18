@@ -205,9 +205,8 @@ th {
 	
     	<div  class="navigation">
       		<ul>
-  				<li><a href="DisplayDetailsServlet">Request Transfer</a></li>
-  				<li style="margin-top:10px;"><a href="ApprovedTransferServlet">Approved Transfer History</a></li>
-  				<li style="margin-top:10px;"><a href="PendingTransferServlet" class="active">Pending Transfer History</a></li>
+  				<li><a href="ViewPendingServlet" class="active">Requested Transfers</a></li>
+  				<li style="margin-top:10px;"><a href="ViewCheckServlet">Checked Transfer History</a></li>
  				
 		    </ul>
 		</div>
@@ -215,26 +214,27 @@ th {
 	
 	
 		<div class="container">
-			<h1 style="text-align: center;font-size:30px">Pending Transfer History</h1>
+		<form action="ReportViewServlet" method="post"><button style="float: right; padding: 8px">Print Report</button></form>
+			<h1 style="text-align: center;font-size:30px">Requested Transfers</h1>
 
 
 	<table style="width: 80px; border: 2px solid #000000; margin-top: 10px;">
 	
 			<tr>
 				<th>Transfer ID</th>
+				<th>Staff No</th>
+				<th>Name</th>
 				<th>Transfer Branch</th>
 				<th>Transfer Department</th>
 				<th>Reason</th>
-				<th>Approve By</th>
 				<th>Status</th>
 				<th>Date</th>
-				<th>Edit</th>
-				<th>Delete</th>
+				
 								
 				
 			</tr>
 	
-	<c:forEach var="Transfer" items="${transferDetails}">
+	<c:forEach var="Transfer" items="${RtransferDetails}">
 	
 		<c:set var ="tranID" value ="${Transfer.tranID}"/>
 		<c:set var ="cBranch" value ="${Transfer.cBranch}"/>
@@ -244,42 +244,27 @@ th {
 		<c:set var ="reason" value ="${Transfer.reason}"/>
 		<c:set var ="approveBy" value ="${Transfer.approveBy}"/>
 		<c:set var ="status" value ="${Transfer.status}"/>
+		<c:set var ="empID" value ="${Transfer.empID}"/>
 		
-		<c:url value="UpdateTransfer.jsp" var="transferUpdate">
-		<c:param name="tranID" value="${tranID}"/>
-		<c:param name="cBranch" value="${cBranch}"/>
-		<c:param name="cDepartment" value="${cDepartment}"/>
-		<c:param name="tBranch" value="${tBranch}"/>
-		<c:param name="tDepartment" value="${tDepartment}"/>
-		<c:param name="reason" value="${reason}"/>
-		<c:param name="approveBy" value="${approveBy}"/>
+		<c:forEach var="Employee" items="${emploDetails}">
+	
+		<c:set var ="name" value ="${Employee.name}"/>
 		
-		</c:url>
 		
-		<c:url value="DeleteTransfer.jsp" var="transferDelete">
-		<c:param name="tranID" value="${tranID}"/>
-		<c:param name="cBranch" value="${cBranch}"/>
-		<c:param name="cDepartment" value="${cDepartment}"/>
-		<c:param name="tBranch" value="${tBranch}"/>
-		<c:param name="tDepartment" value="${tDepartment}"/>
-		<c:param name="reason" value="${reason}"/>
-		<c:param name="approveBy" value="${approveBy}"/>
-		</c:url>
-			
 				
 			<tr>
 				<td>${Transfer.tranID}</td>
+				<td>${Transfer.empID}</td>
+				<td>${Employee.name}</td>
 				<td>${Transfer.tBranch}</td>
 				<td>${Transfer.tDepartment}</td>
 				<td>${Transfer.reason}</td>
-				<td>${Transfer.approveBy}</td>
 				<td>${Transfer.status}</td>
 				<td><%=new SimpleDateFormat("dd/MM/yy").format(new Date()) %></td>
-				<td><a href="${transferUpdate}"><button class="icon"><i style="font-size:24px" class="fa">&#xf044;</i></button></a></td>
-				<td><a href="${transferDelete}"><button class="icon"><i style="font-size:24px" class="fa">&#xf014;</i></button></a></td>
+				
 			</tr>
 		
-						   
+	</c:forEach>					   
 	</c:forEach>
 	</table>
 	

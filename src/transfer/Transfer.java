@@ -9,9 +9,11 @@ public class Transfer {
 	private String tDepartment;
 	private String reason;
 	private String approveBy;
+	private String status;
+	private String empID;
 
 	public Transfer(int tranID, String cBranch, String cDepartment, String tBranch, String tDepartment, String reason,
-			String approveBy) {
+			String approveBy, String status, String empID) {
 		this.tranID = tranID;
 		this.cBranch = cBranch;
 		this.cDepartment = cDepartment;
@@ -19,6 +21,8 @@ public class Transfer {
 		this.tDepartment = tDepartment;
 		this.reason = reason;
 		this.approveBy = approveBy;
+		this.status = status;
+		this.empID = empID;
 	}
 
 	public int getTranID() {
@@ -47,6 +51,14 @@ public class Transfer {
 
 	public String getApproveBy() {
 		return approveBy;
+	}
+	
+	public String getStatus() {
+		return status;
+	}
+	
+	public String getEmpID() {
+		return empID;
 	}
 	
 

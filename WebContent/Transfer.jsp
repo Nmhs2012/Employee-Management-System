@@ -230,9 +230,9 @@ th {
 	
     	<div  class="navigation">
       		<ul>
-  				<li><a class="active" href="Transfer.jsp">Request Transfer</a></li>
-  				<li style="margin-top:10px;"><a href="MutualTransfer.jsp">Request Mutual Transfer</a></li>
-  				<li style="margin-top:10px;"><a href="PendingTransfer.jsp">Requested Transfer History</a></li>
+  				<li><a class="active" href="DisplayDetailsServlet">Request Transfer</a></li>
+  				<li style="margin-top:10px;"><a href="ApprovedTransferServlet">Approved Transfer History</a></li>
+  				<li style="margin-top:10px;"><a href="PendingTransferServlet">Pending Transfer History</a></li>
  				
 		    </ul>
 		</div>
@@ -322,7 +322,7 @@ th {
 				
 				while(rs.next()){
 					%>
-					<option value="<%=rs.getInt("branchCode")%>"><%=rs.getString("bname")%></option>
+					<option value="<%=rs.getString("bname")%>"><%=rs.getString("bname")%></option>
 					<%
 				}
 				
@@ -338,11 +338,25 @@ th {
 			<label>Department:</label>
 			<select id="type" name="tDepartment" required>
 				<option value="">Select One..</option>
-          		<option value="HR">HR</option>
-          		<option value="Marketing">Marketing</option>
-          		<option value="Accounting and Finance">Accounting and Finance</option>
-          		<option value="Supplies">Supplies</option>
-          		<option value="Production">Production</option>						
+          		<%
+			
+			try {
+					
+				String sql = "select * from Department";
+				
+				rs= stat.executeQuery(sql);
+				
+				while(rs.next()){
+					%>
+					<option value="<%=rs.getString("dname")%>"><%=rs.getString("dname")%></option>
+					<%
+				}
+				
+				
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+			%>						
         	</select>	
 			
 			
@@ -353,11 +367,25 @@ th {
 			<label>8. Department Head:<br> (For Approval)</label>
 			 <select id="type" name="approveBy" required>
 			 	<option value="">Select One..</option>
-          		<option value="A.P.Kaurnanayake">A.P.Kaurnanayake</option>
-          		<option value="G.L.Gamage">G.L.Gamage</option>
-          		<option value="A.D.Rajapaksha">A.D.Rajapaksha</option>
-          		<option value="E.K. Perera">E.K. Perera</option>
-          		<option value="A.D.P.De Silva">A.D.P.De Silva</option>
+          		<%
+			
+			try {
+					
+				String sql = "select * from Department";
+				
+				rs= stat.executeQuery(sql);
+				
+				while(rs.next()){
+					%>
+					<option value="<%=rs.getString("manager")%>"><%=rs.getString("manager")%></option>
+					<%
+				}
+				
+				
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+			%>
         	</select>
 			  
 		

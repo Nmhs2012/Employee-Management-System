@@ -2,13 +2,13 @@ package transfer;
 
 public class Employee {
 
-	private int empID;
+	private String empID;
 	private String name;
 	private String address;
 	private static String username;
 	private int password;
 
-	public Employee(int empID, String name, String address, String username, int password) {
+	public Employee(String empID, String name, String address, String username, int password) {
 		this.empID = empID;
 		this.name = name;
 		this.address = address;
@@ -16,7 +16,7 @@ public class Employee {
 		this.password = password;
 	}
 
-	public int getEmpID() {
+	public String getEmpID() {
 		return empID;
 	}
 

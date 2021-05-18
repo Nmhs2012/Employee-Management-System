@@ -2,6 +2,8 @@ package transfer;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,6 +22,15 @@ public class DeleteTransferServlet extends HttpServlet {
 		
 		String tranID = request.getParameter("tranID");
 		
+		
+		//Take employee id
+		String username = Employee.getUsername();
+		
+		List<Employee> empDetails = TransferDBUtil.getEmployee(username);
+		
+		Employee emp = empDetails.get(0);
+		String empID = emp.getEmpID();
+		
 		boolean True = TransferDBUtil.deleteTransfer(tranID) ;
 		
 		if(True == true) {
@@ -28,6 +39,9 @@ public class DeleteTransferServlet extends HttpServlet {
 			out.println("alert('Your transfer details have been deleted successfully');");
 			out.println("location='PendingTransfer.jsp'");
 			out.println("</script>");
+			
+			List<Transfer> transferDetails = TransferDBUtil.getTransfer(empID);
+			request.setAttribute("transferDetails", transferDetails);
 			
 			
 			RequestDispatcher dis1 = request.getRequestDispatcher("PendingTransfer.jsp");		

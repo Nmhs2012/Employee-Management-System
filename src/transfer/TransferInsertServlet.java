@@ -26,7 +26,7 @@ public class TransferInsertServlet extends HttpServlet {
 		List<Employee> empDetails = TransferDBUtil.getEmployee(username);
 		
 		Employee emp = empDetails.get(0);
-		int empID = emp.getEmpID();
+		String empID = emp.getEmpID();
 		
 		//Take current department and Branch
 		List<Department> depDetails = TransferDBUtil.getDepartment(username);
@@ -45,21 +45,18 @@ public class TransferInsertServlet extends HttpServlet {
 		
 		if(isTrue == true) {
 			
-			String keyvalue = "ok";
-			request.setAttribute("keyvalue", keyvalue);
-			
 			List<Transfer> transferDetails = TransferDBUtil.getTransfer(empID);
 			request.setAttribute("transferDetails", transferDetails);
 			
 			RequestDispatcher dis2 = request.getRequestDispatcher("PendingTransfer.jsp");
 			dis2.forward(request, response);
-			
+						
 		} 
 		
 		else {
 
 			
-			RequestDispatcher dis3 = request.getRequestDispatcher("unsuccess.jsp");
+			RequestDispatcher dis3 = request.getRequestDispatcher("Transfer.jsp");
 			dis3.forward(request, response);
 
 		}
@@ -67,4 +64,3 @@ public class TransferInsertServlet extends HttpServlet {
 	}
 
 }
-

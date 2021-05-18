@@ -23,7 +23,7 @@ public class TransferDBUtil {
 					con = DBConnect.getConnection();
 					stat = con.createStatement();
 							
-					String sql = "select * from Employee where username = '"+username+"' and password ='"+password+"'";
+					String sql = "select * from Employee where username = '"+username+"' and passwords ='"+password+"'";
 					
 					rs= stat.executeQuery(sql);
 					
@@ -57,7 +57,7 @@ public class TransferDBUtil {
 					rs= stat.executeQuery(sql);
 					
 					while(rs.next()) {
-						int empID = rs.getInt(1);
+						String empID = rs.getString(1);
 						String name = rs.getString(2);
 						String address = rs.getString(3);
 						String userName = rs.getString(4);
@@ -65,6 +65,39 @@ public class TransferDBUtil {
 					
 						//Create Employee Object
 						Employee e = new Employee(empID, name, address, userName, password);
+						emp.add(e);
+					}
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
+				
+				
+				return emp;
+			}
+			
+			public static List<Employee> getEmployeeDetails(String empID){
+				
+				ArrayList<Employee> emp = new ArrayList<>();
+				
+				try {
+					
+					con = DBConnect.getConnection();
+					stat = con.createStatement();
+					
+					//SQL Query			
+					String sql = "select * from Employee where empID = '"+empID+"'";
+								
+					rs= stat.executeQuery(sql);
+					
+					while(rs.next()) {
+						String eID = rs.getString(1);
+						String name = rs.getString(2);
+						String address = rs.getString(3);
+						String userName = rs.getString(4);
+						int password = rs.getInt(5);
+					
+						//Create Employee Object
+						Employee e = new Employee(eID, name, address, userName, password);
 						emp.add(e);
 					}
 				}catch(Exception e) {
@@ -85,12 +118,12 @@ public class TransferDBUtil {
 				stat = con.createStatement();
 				
 				//SQL Query			
-				String sql = "select d.depID,d.dname,d.manager from Employee e, Department d where e.empID = d.depID and e.username = '"+username+"'";
+				String sql = "select d.depID,d.dname,d.manager from Employee e, Department d where e.depID = d.depID and e.username = '"+username+"'";
 							
 				rs= stat.executeQuery(sql);
 				
 				while(rs.next()) {
-					int dipID = rs.getInt(1);
+					String dipID = rs.getString(1);
 					String dname = rs.getString(2);
 					String manager = rs.getString(3);
 					
@@ -117,12 +150,12 @@ public class TransferDBUtil {
 					stat = con.createStatement();
 					
 					//SQL Query			
-					String sql = "select b.branchCode, b.bname from Employee e, Branch b where e.empID = b.branchCode and e.username = '"+username+"'";
+					String sql = "select b.branchCode, b.bname from Employee e, Branch b where e.branchCode = b.branchCode and e.username = '"+username+"'";
 								
 					rs= stat.executeQuery(sql);
 					
 					while(rs.next()) {
-						int branchCode = rs.getInt(1);
+						String branchCode = rs.getString(1);
 						String bname = rs.getString(2);
 						
 						//Create Department Object
@@ -138,14 +171,14 @@ public class TransferDBUtil {
 			}
 			
 			//Insert Transfer Details
-			public static boolean insertTransfer(String dname, String bname, String tBranch, String tDepartment, String reason, String approveBy, int  empID) {
+			public static boolean insertTransfer(String dname, String bname, String tBranch, String tDepartment, String reason, String approveBy, String  empID) {
 			    
 		    	boolean isSuccess = false;
 		    	
 		    	try {
 		    		con = DBConnect.getConnection();
 		    		stat = con.createStatement();
-		    	    String sql = "insert into transfer values (0, '"+bname+"', '"+dname+"', '"+tBranch+"', '"+tDepartment+"','"+reason+"','"+approveBy+"', '"+empID+"')";
+		    	    String sql = "insert into transfer values (0, '"+bname+"', '"+dname+"', '"+tBranch+"', '"+tDepartment+"','"+reason+"','"+approveBy+"', 'pending', '"+empID+"')";
 		    		int rs = stat.executeUpdate(sql);
 		    		
 		    		if(rs > 0) {
@@ -163,7 +196,7 @@ public class TransferDBUtil {
 		    }
 			
 			//Get Transfer Details 
-			public static List<Transfer> getTransfer(int empID){
+			public static List<Transfer> getTransfer(String empID){
 				
 				ArrayList<Transfer> transfer = new ArrayList<>();
 				
@@ -173,7 +206,7 @@ public class TransferDBUtil {
 					stat = con.createStatement();
 					
 					//SQL Query			
-					String sql = "select * from transfer where empID ='"+empID+"'";
+					String sql = "select * from transfer where status = 'pending' AND empID ='"+empID+"'";
 								 
 					rs= stat.executeQuery(sql);
 					
@@ -185,9 +218,48 @@ public class TransferDBUtil {
 						String tDepartment = rs.getString(5);
 						String reason = rs.getString(6);
 						String approveBy = rs.getString(7);
+						String status = rs.getString(8);
+						String eid = rs.getString(9);
 												
 						//Create Department Object
-						Transfer t = new Transfer(transferID, cBranch, cDepartment, tBranch, tDepartment, reason, approveBy);
+						Transfer t = new Transfer(transferID, cBranch, cDepartment, tBranch, tDepartment, reason, approveBy, status, eid);
+						transfer.add(t);
+					}
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
+				
+				return transfer;
+			}
+			
+			//Get Transfer Details 
+			public static List<Transfer> getApprovedTransfer(String empID){
+				
+				ArrayList<Transfer> transfer = new ArrayList<>();
+				
+				try {
+					
+					con = DBConnect.getConnection();
+					stat = con.createStatement();
+					
+					//SQL Query			
+					String sql = "select * from transfer where (status = 'approved' OR status = 'rejected') AND empID ='"+empID+"'";
+								 
+					rs= stat.executeQuery(sql);
+					
+					while(rs.next()) {
+						int transferID = rs.getInt(1);
+						String cBranch = rs.getString(2);
+						String cDepartment = rs.getString(3);
+						String tBranch = rs.getString(4);
+						String tDepartment = rs.getString(5);
+						String reason = rs.getString(6);
+						String approveBy = rs.getString(7);
+						String status = rs.getString(8);
+						String eid = rs.getString(9);
+												
+						//Create Department Object
+						Transfer t = new Transfer(transferID, cBranch, cDepartment, tBranch, tDepartment, reason, approveBy, status, eid);
 						transfer.add(t);
 					}
 				}catch(Exception e) {
@@ -222,9 +294,62 @@ public class TransferDBUtil {
 		    	return Success;
 		    }
 			
-			public static List<Transfer> getTransferDetails(String tranID){
+			//Approve
+			public static boolean updateApprove(int tranID) {
 				
-				int convertID = Integer.parseInt(tranID);
+				
+		    	try {
+		    		
+		    		con = DBConnect.getConnection();
+		    		stat = con.createStatement();
+		    		String sql = "update transfer set status ='approved' where tranID = '"+tranID+"'";
+		    		int rs = stat.executeUpdate(sql);
+		    		
+		    		if(rs > 0) {
+		    			Success = true;
+		    		}
+		    		else {
+		    			Success = false;
+		    		}
+		    		
+		    	}
+		    	catch(Exception e) {
+		    		e.printStackTrace();
+		    	}
+		    	
+		    	return Success;
+		    }
+			
+			//Reject
+			//Approve
+			public static boolean updateReject(int tranID) {
+				
+				
+		    	try {
+		    		
+		    		con = DBConnect.getConnection();
+		    		stat = con.createStatement();
+		    		String sql = "update transfer set status ='rejected' where tranID = '"+tranID+"'";
+		    		int rs = stat.executeUpdate(sql);
+		    		
+		    		if(rs > 0) {
+		    			Success = true;
+		    		}
+		    		else {
+		    			Success = false;
+		    		}
+		    		
+		    	}
+		    	catch(Exception e) {
+		    		e.printStackTrace();
+		    	}
+		    	
+		    	return Success;
+		    }
+			
+			
+			//Get Requested Pending Transfer Details
+			public static List<Transfer> getTransferDetails(){
 				
 				ArrayList<Transfer> transfer = new ArrayList<>();
 				
@@ -234,7 +359,7 @@ public class TransferDBUtil {
 					stat = con.createStatement();
 					
 					//SQL Query			
-					String sql = "select * from transfer where tranID ='"+convertID+"'";
+					String sql = "select * from transfer where status = 'pending'";
 								 
 					rs= stat.executeQuery(sql);
 					
@@ -246,9 +371,48 @@ public class TransferDBUtil {
 						String tDepartment = rs.getString(5);
 						String reason = rs.getString(6);
 						String approveBy = rs.getString(7);
+						String status = rs.getString(8);
+						String empID = rs.getString(9);
 												
 						//Create Department Object
-						Transfer t = new Transfer(transferID, cBranch, cDepartment, tBranch, tDepartment, reason, approveBy);
+						Transfer t = new Transfer(transferID, cBranch, cDepartment, tBranch, tDepartment, reason, approveBy, status, empID);
+						transfer.add(t);
+					}
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
+				
+				return transfer;
+			}
+			
+			//Get Checked Transfer Details
+public static List<Transfer> getCheckedTransferDetails(){
+				
+				ArrayList<Transfer> transfer = new ArrayList<>();
+				
+				try {
+					
+					con = DBConnect.getConnection();
+					stat = con.createStatement();
+					
+					//SQL Query			
+					String sql = "select * from transfer where status = 'approved' OR status = 'rejected'";
+								 
+					rs= stat.executeQuery(sql);
+					
+					while(rs.next()) {
+						int transferID = rs.getInt(1);
+						String cBranch = rs.getString(2);
+						String cDepartment = rs.getString(3);
+						String tBranch = rs.getString(4);
+						String tDepartment = rs.getString(5);
+						String reason = rs.getString(6);
+						String approveBy = rs.getString(7);
+						String status = rs.getString(8);
+						String empID = rs.getString(9);
+												
+						//Create Department Object
+						Transfer t = new Transfer(transferID, cBranch, cDepartment, tBranch, tDepartment, reason, approveBy, status, empID);
 						transfer.add(t);
 					}
 				}catch(Exception e) {
@@ -288,4 +452,4 @@ public class TransferDBUtil {
 				return Success;
 			}
 			
-}
+}			

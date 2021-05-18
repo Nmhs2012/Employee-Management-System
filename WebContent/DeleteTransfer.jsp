@@ -227,9 +227,9 @@ th {
 	
     	<div  class="navigation">
       		<ul>
-  				<li><a href="Transfer.jsp">Request Transfer</a></li>
-  				<li style="margin-top:10px;"><a href="MutualTransfer.jsp">Request Mutual Transfer</a></li>
-  				<li style="margin-top:10px;"><a href="PendingTransfer.jsp" class="active" href="PendingTransfer.jsp">Requested Transfer History</a></li>
+  				<li><a href="DisplayDetailsServlet">Request Transfer</a></li>
+  				<li style="margin-top:10px;"><a href="ApprovedTransferServlet">Approved Transfer History</a></li>
+  				<li style="margin-top:10px;"><a href="PendingTransferServlet" class="active" href="PendingTransfer.jsp">Pending Transfer History</a></li>
  				
 		    </ul>
 		</div>

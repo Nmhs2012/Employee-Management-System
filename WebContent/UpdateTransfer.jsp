@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+    <%@page import="transfer.DBConnect" %>
+    <%@page import="java.sql.*" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -227,9 +229,9 @@ th {
 	
     	<div  class="navigation">
       		<ul>
-  				<li><a href="Transfer.jsp">Request Transfer</a></li>
-  				<li style="margin-top:10px;"><a href="MutualTransfer.jsp">Request Mutual Transfer</a></li>
-  				<li style="margin-top:10px;"><a class="active" href="PendingTransfer.jsp">Requested Transfer History</a></li>
+  				<li><a href="DisplayDetailsServlet">Request Transfer</a></li>
+  				<li style="margin-top:10px;"><a href="ApprovedTransferServlet">Approved Transfer History</a></li>
+  				<li style="margin-top:10px;"><a class="active" href="PendingTransferServlet">Pending Transfer History</a></li>
  				
 		    </ul>
 		</div>
@@ -267,20 +269,57 @@ th {
 			<label>4.  Transfer Branch:</label>
 			<select id="type" name="tBranch" required>
           		<option value="<%= tBranch %>"><%= tBranch %></option>
-          		<option value="Colombo">Colombo</option>
-          		<option value="Gampaha">Gampaha</option>
-          		<option value="Galle">Galle</option>
+          		<%
+			
+			Connection con = null;
+			Statement stat = null;
+			ResultSet rs = null;
+			
+			try {
+				
+				con = DBConnect.getConnection();
+				stat = con.createStatement();
+						
+				String sql = "select * from Branch";
+				
+				rs= stat.executeQuery(sql);
+				
+				while(rs.next()){
+					%>
+					<option value="<%=rs.getString("bname")%>"><%=rs.getString("bname")%></option>
+					<%
+				}
+				
+				
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+			%>
         	</select>
 
 			
 			<label>5.  Transfer Department:</label>
 			<select id="type" name="tDepartment" required>
 				<option value="<%= tDepartment%>"><%= tDepartment%></option>
-          		<option value="HR">HR</option>
-          		<option value="Marketing">Marketing</option>
-          		<option value="Accounting & Finance">Accounting and Finance</option>
-          		<option value="Production">Production</option>
-          		<option value="Supplies">Supplies</option>
+          		<%
+			
+			try {
+						
+				String sql = "select * from Department";
+				
+				rs= stat.executeQuery(sql);
+				
+				while(rs.next()){
+					%>
+					<option value="<%=rs.getString("dname")%>"><%=rs.getString("dname")%></option>
+					<%
+				}
+				
+				
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+			%>
         	</select>	
 			
 			
@@ -291,11 +330,25 @@ th {
 			<label>7.  Department Head:<br> (For Approval)</label>
 			 <select id="type" name="approveBy"  required>
 			 	<option value="<%= approveBy%>"><%= approveBy%></option>
-          		<option value="Colombo">A.P.Kaurnanayake</option>
-          		<option value="Gampaha">G.L.Gamage</option>
-          		<option value="Galle">A.D.Rajapaksha</option>
-          		<option value="Galle">E.K. Perera</option>
-          		<option value="Galle">A.D.P.De Silva</option>
+          		<%
+			
+			try {
+						
+				String sql = "select * from Department";
+				
+				rs= stat.executeQuery(sql);
+				
+				while(rs.next()){
+					%>
+					<option value="<%=rs.getString("manager")%>"><%=rs.getString("manager")%></option>
+					<%
+				}
+				
+				
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+			%>
         	</select>
 	
 	<input type="submit" value="Update">

@@ -2,17 +2,17 @@ package transfer;
 
 public class Department {
 
-	private int depID;
+	private String depID;
 	private String dname;
 	private String manager;
 
-	public Department(int depID, String dname, String manager) {
+	public Department(String depID, String dname, String manager) {
 		this.depID = depID;
 		this.dname = dname;
 		this.manager = manager;
 	}
 
-	public int getDepID() {
+	public String getDepID() {
 		return depID;
 	}
 
